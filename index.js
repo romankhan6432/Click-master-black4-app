@@ -10,7 +10,7 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 })
 
-const webAppUrl = 'https://click-master-lime.vercel.app/';
+const webAppUrl = 'https://click-masterads.vercel.app/';
 
 const userSchema = new mongoose.Schema({
     // New fields
@@ -81,7 +81,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-mongoose.connect('mongodb+srv://admin:admin@atlascluster.nei8u.mongodb.net/clickmasterads')
+mongoose.connect('mongodb+srv://romankhan:romankhan@cluster0.uxxmc.mongodb.net/telegram-bot')
 .then(() => console.log('Connected to MongoDB'))
 .catch((err) => console.error('Failed to connect to MongoDB:', err));
 
@@ -93,12 +93,12 @@ const startHandler = async (msg) => {
     const username = msg.chat.username;
     
     try {
-        const user = await User.findOne({ telegramId: chatId.toString() });
+       let user = await User.findOne({ telegramId: chatId.toString() });
   
      if(!user){
          
         user = await User.create({
-            telegramId: userId,
+            telegramId: chatId,
             fullName: `${firstName} ${lastName}`.trim(),
             username: username,
             status: 'active',
@@ -142,6 +142,7 @@ const startHandler = async (msg) => {
     );
      
     } catch (error) {
+        console.log(error)
         bot.sendMessage(chatId, 'Something went wrong, please try again later.');
     }
 };
